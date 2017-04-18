@@ -1,0 +1,34 @@
+/**
+ *  @file profile.hpp
+ */
+
+#ifndef INCLUDES_PROFILE_HPP
+#define INCLUDES_PROFILE_HPP
+
+#include <iostream>
+#include <cassert>
+#include <string>
+#include <map>
+
+std::string int2string(int);
+
+
+/**
+ *  A map of line numbers or line number function names and the number
+ *   of times each was called.
+ */
+class profile {
+public:
+    profile(std::string fn="") : fname(fn)               {};
+
+    void count(const int line, const std::string & funcName) { stmt[int2string(line) + " " + funcName] += 1; }
+    void count(const int line)                              { stmt[int2string(line)] += 1; }
+
+    friend std::ostream& operator<< (std::ostream &, const profile &);
+private:
+    std::string fname;
+    // (line# X times called)
+    std::map<std::string, int> stmt;
+};
+
+#endif
